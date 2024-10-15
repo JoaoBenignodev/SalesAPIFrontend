@@ -4,7 +4,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import UserSignUp from './components/users/signup/UserSignUp';
+import UserSignUp from './pages/user/signup/UserSignUp';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
