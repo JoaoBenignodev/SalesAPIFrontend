@@ -29,7 +29,7 @@ function UserListAll() {
         setUsers(data); //Setting thee fetched users data
       
       } else {
-        console.error('Failed tto fetch users', data);
+        console.error('Failed to fetch users', data);
       }
 
     } catch (error) {
@@ -38,44 +38,51 @@ function UserListAll() {
   }
 
   return (
-    <TableContainer component={Paper}>
-      <Table arial-label="user table">
-        <TableHead>
-          <TableRow>
-            <TableCell>ID</TableCell>
-            <TableCell align="right">Nome</TableCell>
-            <TableCell align="right">E-mail</TableCell>
-            <TableCell align="right">Documento</TableCell>
-            <TableCell align="right">Status</TableCell>
-          </TableRow>
-        </TableHead>
+    <Box bgcolor="#e8eaf6" p={8} display="flex" justifyContent="center">
 
-        <TableBody>
-          {
-            users.map((user) => (
-              <TableRow>
-                <TableCell component="th" scope="row">
-                  {user.id}
-                </TableCell>
-                <TableCell align="right">{user.email}</TableCell>
-                <TableCell align="right">{user.document}</TableCell>
-                <TableCell align="right">{user.is_active ? 'Sim' : 'Não'}</TableCell>
-                <TableCell align="center" style={{alignContent: "left"}}>
-                    <Box display="flex" justifyContent="center" width="full">
-                      {user.is_active 
-                        ? <Box px={2} bgcolor = "green" borderRadius="16px" color="#FFF">Sim</Box>
-                        : <Box px={2} bgcolor="red" borderRadius="16px" color="#FFF">Não</Box>
-                      }
- 
-                    </Box>
-                    
-                </TableCell>
-              </TableRow>
-            ))
-          }
-        </TableBody>
-      </Table>
-    </TableContainer>
+      <TableContainer component={Paper}>
+        <Table arial-label="user table">
+          <TableHead>
+            <TableRow>
+              <TableCell>ID</TableCell>
+              <TableCell align="center">Nome</TableCell>
+              <TableCell align="center">E-mail</TableCell>
+              <TableCell align="center">Documento</TableCell>
+              <TableCell align="center">Status</TableCell>
+            </TableRow>
+          </TableHead>
+
+          <TableBody>
+            {
+              users.map((user, index) => (
+                <TableRow hover 
+                  sx={{
+                    '&:hover': {
+                      cursor: 'pointer',
+                    }
+                  }}
+                  // style={{backgroundColor: index % 2 == 0 ? 'white' : 'whitesmoke'}} -> users.map((user, index)
+                  //onClick={() => alert(`cliente escolhido: ${user.name}`)}
+                >
+                  <TableCell component="th" scope="row">{user.id}</TableCell>
+                  <TableCell align="right">{user.name}</TableCell>
+                  <TableCell align="right">{user.email}</TableCell>
+                  <TableCell align="right">{user.document}</TableCell>
+                  <TableCell align="center" style={{alignContent: "left"}}>
+                      <Box display="flex" justifyContent="center" width="full">
+                        {user.is_active 
+                        ? <Box px={2} bgcolor= "#7986cb" borderRadius="16px" color="#FFF">Ativo</Box>
+                        : <Box px={2} bgcolor="#c5cae9" borderRadius="16px" color="#FFF">Não ativo</Box>
+                        }
+                      </Box>  
+                  </TableCell>
+                </TableRow>
+              ))
+            }
+          </TableBody>
+        </Table>
+      </TableContainer>
+    </Box>
 
     // <Paper sx={{ height: 400, width: '100%' }}>
     //   <DataGrid/>
