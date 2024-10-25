@@ -1,8 +1,8 @@
 import { useState, useEffect } from  'react';
 import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, 
-TableRow, Box, IconButton, Modal, TextField, Button } from '@mui/material';
+TableRow, Box, IconButton, Modal, TextField, Button, Snackbar, Alert } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
-import './style.css';
+import Divider from '@mui/joy/Divider';
 
 function UserListAll() {
   //useState hook to store the list of users
@@ -10,6 +10,9 @@ function UserListAll() {
   const [openModal, setOpenModal] = useState(false);
   const [currentUser, setCurrentUser] = useState(null);
   const [formValues, setFormValues] = useState({name: '', email: '', document: ''});
+  const [openSnackbar, setOpenSnackbar] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState('');
+  const [snackbarSeverity, setSnackbarSeverity] = useState('success');
 
   // useEffect hook to fetch users when the component loads
   useEffect(() => {
@@ -66,7 +69,7 @@ function UserListAll() {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringfy(formValues),
+        body: JSON.stringify(formValues),
       });
 
       if (response.ok) {
@@ -77,20 +80,35 @@ function UserListAll() {
           )
         );
         setOpenModal(false); // close the modal
+        setSnackbarMessage('Cliente atualizado com sucesso!');
+        setSnackbarSeverity('success');
+        setOpenSnackbar(true);
       
       } else {
+        setSnackbarMessage('Erro ao atualizar o cliente');
+        setSnackbarSeverity('error');
+        setOpenSnackbar(true);
         console.error('Failed to update user');
       }
 
     } catch(error) {
+      setSnackbarMessage('Erroo ao atualizar o cliente');
+      setSnackbarSeverity('error');
+      setOpenSnackbar(true);
       console.error('Error updating user: ', error);
     }
   };
+
+  // close snackbar function
+  const handleCloseSnackbar = () => {
+    setOpenSnackbar(false);
+  }
 
   return (
     <Box bgcolor="#e8eaf6" p={8} display="flex" justifyContent="center">
       <TableContainer component={Paper}>
         <h1 align="center">Clientes</h1>
+        <Divider />
         <Table arial-label="user table">
           <TableHead>
             <TableRow>
@@ -106,7 +124,7 @@ function UserListAll() {
 
           <TableBody>
             {
-              users.map((user, index) => (
+              users.map((user) => (
                 <TableRow key={user.id}
                   hover 
                   sx={{
@@ -144,9 +162,9 @@ function UserListAll() {
 
       {/* Modal for editing user */}
       <Modal open={openModal} onClose={() => setOpenModal(false)}>
-        <Box sx={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: 400, bgColor: 'background.paper', p: 4, borderRadius: '8px' }}>
+        <Box bgcolor="#FFF" sx={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: 350, p: 4, borderRadius: '8px' }}>
 
-          <h2>Editar Cliente</h2>
+          <h2 align="center">Editar Cliente</h2>
           <TextField
             label="Nome"
             name="name"
@@ -171,14 +189,24 @@ function UserListAll() {
             fullWidth
             margin="normal"
           />
-          <Button variant="contained" color="primary" onClick={handleFormSubmit} sx={{ mt: 2 }}>
+          <Box display="flex" justifyContent="center" mt={2}>
+            <Button variant="contained" size="large" onClick={handleFormSubmit} sx={{ backgroundColor: "#3949ab"}}>
             Atualizar
           </Button>
+          </Box>
         </Box>
       </Modal>
+
+      {/* Snackbar for feedback message */}
+      <Snackbar open={openSnackbar} autoHideDuration={6000} onClose={handleCloseSnackbar}>
+        <Alert onClose={handleCloseSnackbar} severity={snackbarSeverity} sx={{ width: '100%' }}>
+          {snackbarMessage}
+        </Alert>
+      </Snackbar>
+
     </Box>
 
-  )
+  );
 }
 
 export default UserListAll;
