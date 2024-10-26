@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import {
   Paper, Table, TableBody, TableCell, TableContainer, TableHead,
-  TableRow, Box, IconButton, Modal, TextField, Button, Snackbar, Alert
+  TableRow, Box, IconButton, Modal, TextField, Button, Snackbar, Alert, Checkbox
 } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import Divider from '@mui/joy/Divider';
@@ -11,7 +11,7 @@ function UserListAll() {
   const [users, setUsers] = useState([]);
   const [openModal, setOpenModal] = useState(false);
   const [currentUser, setCurrentUser] = useState(null);
-  const [formValues, setFormValues] = useState({ name: '', email: '', document: '' });
+  const [formValues, setFormValues] = useState({ name: '', email: '', document: '', is_active: true });
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState('');
   const [snackbarSeverity, setSnackbarSeverity] = useState('success');
@@ -50,7 +50,8 @@ function UserListAll() {
     setFormValues({
       name: user.name,
       email: user.email,
-      document: user.document
+      document: user.document,
+      is_active: user.is_active,
     }); //populate form with user data
     setOpenModal(true) //open the modal
     //console.log('Updating user with ID: ', userID);
@@ -144,8 +145,8 @@ function UserListAll() {
                   <TableCell align="center" style={{ alignContent: "left" }}>
                     <Box display="flex" justifyContent="center" width="full">
                       {user.is_active
-                        ? (<Box px={2} bgcolor="#7986cb" borderRadius="16px" color="#FFF">Ativo</Box>)
-                        : (<Box px={2} bgcolor="#c5cae9" borderRadius="16px" color="#FFF">Não ativo</Box>)
+                        ? (<Box sx={{ minWidth: 60 }} px={2} bgcolor="#7986cb" borderRadius="16px" color="#FFF" >Ativo</Box>)
+                        : (<Box sx={{ minWidth: 60 }}  px={2} bgcolor="#c5cae9" borderRadius="16px" color="#FFF">Não ativo</Box>)
                       }
                     </Box>
                   </TableCell>
@@ -191,6 +192,18 @@ function UserListAll() {
             fullWidth
             margin="normal"
           />
+          <Box display="flex" alignItems="center">
+            <Checkbox  
+              checked={formValues.is_active} //ou seria is_active?
+              onChange={(e) => setFormValues({ ...formValues, is_active: e.target.checked})}
+              sx={{
+                color: "#7986cb", 
+                '&.Mui-checked': { color: "#3949ab" }, 
+              }}
+            />
+            <span>Ativo</span>
+          </Box>
+
           <Box display="flex" justifyContent="center" mt={2}>
             <Button variant="contained" size="large" onClick={handleFormSubmit} sx={{ backgroundColor: "#3949ab" }}>
               Atualizar
