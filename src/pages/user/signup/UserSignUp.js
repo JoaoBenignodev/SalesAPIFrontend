@@ -22,6 +22,12 @@ function UserSignUp() {
 
     // Function for submitting the creation of a User
     async function submitUser() {
+        // Check if all required fileds are filled
+        if (!formData.name || !formData.email || !formData.password || !formData.document) {
+            alert('To proceed with the Sign-up, all the required fileds must be filled out!');
+            return;
+        }
+
         try {
             const response = await fetch('http://localhost:8080/api/users/add/', {
             method: 'POST',
@@ -46,7 +52,7 @@ function UserSignUp() {
                 is_active: true // Default value
             })
         } else {
-            console.error("Failed to sign up the User:", data);
+            console.error('Failed to sign up the User:', data);
             alert('Failed to Sign Up!\nPlease try again!')
         }}
         catch(error) {
@@ -56,7 +62,7 @@ function UserSignUp() {
     }
 
     return(
-        <div id="user-signup-form">
+        <div id='user-signup-form'>
             <h2>Sign Up</h2>
             <form>
                 <label form='name'>Name</label>
@@ -95,7 +101,7 @@ function UserSignUp() {
                     onChange={handleChange}
                 />
                 
-                {/*inclding " is_active" field in the data sent*/}
+                {/*Including "is_active" field in the data sent*/}
                 <input type='hidden' name='is_active' value={formData.is_active}/>
 
                 <input
