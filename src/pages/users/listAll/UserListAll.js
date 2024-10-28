@@ -95,7 +95,7 @@ function UserListAll() {
       }
 
     } catch (error) {
-      setSnackbarMessage('Erroo ao atualizar o cliente');
+      setSnackbarMessage('Erro ao atualizar o cliente');
       setSnackbarSeverity('error');
       setOpenSnackbar(true);
       console.error('Error updating user: ', error);
@@ -108,7 +108,7 @@ function UserListAll() {
   }
 
   return (
-    <Box bgcolor="#e8eaf6" p={8} display="flex" justifyContent="center">
+    <Box bgcolor="#e8eaf6" p={8} display="flex" justifyContent="center" sx={{minHeight: '100vh'}}>
       <TableContainer component={Paper}>
         <h1 align="center">Clientes</h1>
         <Divider />
