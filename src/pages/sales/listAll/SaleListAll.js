@@ -1,11 +1,17 @@
 import { useState, useEffect } from 'react'; 
-import { Alert, Box, Divider, Paper, Snackbar, Table, TableContainer, TableHead, TableRow, TableCell, TableBody } from "@mui/material";
+import { Alert, Box, Button, Divider, IconButton, Modal, Paper, Snackbar, Table, TableContainer, TableHead, TableRow, TableCell, TableBody, TextField } from "@mui/material";
+import EditIcon from '@mui/icons-material/Edit';
+
 
 
 function SaleListAll() {
 
   //useState hook to store the list of Sales
   const [sales, setSales] = useState([]);
+  const [user_id, setUser_id] = useState([]);
+  const [currentSale, setCurrentSale] = useState(null);
+  const [formValues, setFormValues] = useState({quantity:'', price: '', user_id: '', product_id:'' });
+  const [openModal, setOpenModal] = useState(false);
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState('');
   const [snackbarSeverity, setSnackbarSeverity] = useState('success');
@@ -18,8 +24,8 @@ function SaleListAll() {
   // Function to fetch all sales from the frontend
   async function fetchSales() {
     try {
-      //const response = await fetch();
-      const response = await fetch('htttp://localhost:8080/api/sales/', 
+      //const response = await fetch('', {});
+      const response = await fetch('http://localhost:8080/api/sales/', 
         {
           method: 'GET',
           headers: {
@@ -45,6 +51,64 @@ function SaleListAll() {
     }
   }
 
+  // Function to handle Sale update
+  function updateSale(sale) {
+    setCurrentSale(sale); //set the current sale to be edited
+    setFormValues({
+      quantity: sale.quantity,
+      price: sale.price,
+      user_id: sale.user.user_id,
+      product_id: sale.product.product_id,
+    }); //populate form with sales data
+    setOpenModal(true);
+  }
+
+  // Function to handle form input changes
+  const handleInputChange = (event) => {
+    const { name, value } = event.target;
+    setFormValues({...formValues, [name]: value });
+  }
+
+  // Function to submit the updated sale data
+  async function  handleFormSubmit() {
+    try {
+      const response = await fetch(`http://localhost:8080/api/sales/${currentSale.id}/change`, 
+        {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(formValues),
+        });
+
+      if (response.ok) {
+        const updatedSale = await response.json();
+        setSales((prevSales) =>
+          prevSales.map((sale) =>
+            sale.id === updatedSale.id ? updatedSale : sale
+          )
+        );
+
+        setOpenModal(false);
+        setSnackbarMessage('Venda atualizada com sucesso!');
+        setSnackbarSeverity('success');
+        setOpenSnackbar(true);
+
+      } else {
+        setSnackbarMessage('Erro ao atualizar a venda');
+        setSnackbarSeverity('error');
+        setOpenSnackbar(true);
+        console.log('Failed to update sale');
+      }
+
+    } catch (error) {
+      setSnackbarMessage('Erro ao atualizar a venda');
+      setSnackbarSeverity('error');
+      setOpenSnackbar(true);
+      console.error('Error updating sale: ', error);
+    }
+  };
+
   // Close snackbar function
   const handleCloseSnackbar = () => {
     setOpenSnackbar(false);
@@ -63,6 +127,7 @@ function SaleListAll() {
               <TableCell align="left">Preço</TableCell>
               <TableCell align="left">ID do Cliente</TableCell>
               <TableCell align="left">ID do Produto</TableCell>
+              <TableCell align="left">Atualizar</TableCell>
             </TableRow>
           </TableHead>
 
@@ -73,8 +138,15 @@ function SaleListAll() {
                 <TableCell component="th" scope="row">{sale.id}</TableCell>
                 <TableCell align="left">{sale.quantity}</TableCell>
                 <TableCell align="left">{sale.price}</TableCell>
-                <TableCell align="left">{sale.user.user_id}</TableCell>
-                <TableCell align="left">{sale.product.product_id}</TableCell>
+                <TableCell align="left">{sale.user_id}</TableCell>
+                {/* <TableCell align="left">{sale.user.user_id}</TableCell> */}
+                <TableCell align="left">{sale.product_id}</TableCell>
+                {/* <TableCell align="left">{sale.product.product_id}</TableCell> */}
+                <TableCell align="center">
+                  <IconButton aria-label="edit sale" onClick={() => updateSale(sale)}>
+                    <EditIcon />
+                  </IconButton>
+                </TableCell>
               </TableRow>
             ))
             }
@@ -82,6 +154,51 @@ function SaleListAll() {
         </Table>
       </TableContainer>
       
+      {/* Modal Component for editing sale*/}
+      <Modal open={openModal} onClose={() => setOpenModal(false)}>
+        <Box bgColor="#FFF" sx={{ position: 'absolute', top: '50%', left: '50%',transform: 'translate(-50%, -50%)', width: 350, p: 4, borderRadius: '8px'}}>
+          <h2 align="center">Editar Venda</h2>
+          <TextField 
+            label="Quantidade"
+            name="quantity"
+            value={formValues.quantity}
+            onChange={handleInputChange}
+            fullWidth
+            margin="normal"
+          />
+          <TextField
+            label="Preço"
+            name="price"
+            value={formValues.price}
+            onChange={handleInputChange}
+            fullWidth
+            margin="normal"
+          />
+          <TextField
+            label="ID do Cliente"
+            name="user_id"
+            value={formValues.user_id}
+            onChange={handleInputChange}
+            fullWidth
+            margin="normal"
+          />
+          <TextField
+            label="ID do Produto"
+            name="product_id"
+            value={formValues.product_id}
+            onChange={handleInputChange}
+            fullWidth
+            margin="normal"
+          />
+          <Box display="flex" justifyContent="center" mt={2}>
+            <Button variant="contained" size="large" onClick={handleFormSubmit} sx={{ backgroundColor: "#3949ab" }}>
+              Atualizar
+            </Button>
+          </Box>
+        </Box>
+      </Modal>
+
+      {/* Snackbar Component */}
       <Snackbar open={openSnackbar} autoHideDuration={6000} onClose={handleCloseSnackbar}>
         <Alert onClose={handleCloseSnackbar} severity={snackbarSeverity} sx={{ width: '100%' }}>
           {snackbarMessage}
@@ -89,7 +206,8 @@ function SaleListAll() {
       </Snackbar>
 
     </Box>
-  )
+
+  );
 
 }
 
