@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { Card, CardContent, Typography, TextField, Button, Snackbar, Alert } from '@mui/material';
 import './style.css';
 
-function UserSignUp() {
+function AddUser() {
 
     // UseState hook for managing alerts
     const [openAlert, setOpenAlert] = useState(false) // Controls the visibility of the alert
@@ -142,4 +142,4 @@ function UserSignUp() {
     )
 }
 
-export default UserSignUp;
+export default AddUser;
