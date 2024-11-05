@@ -8,7 +8,7 @@ function SaleListAll() {
 
   //useState hook to store the list of Sales
   const [sales, setSales] = useState([]);
-  const [user_id, setUser_id] = useState([]);
+  // const [user_id, setUser_id] = useState([]);
   const [currentSale, setCurrentSale] = useState(null);
   const [formValues, setFormValues] = useState({quantity:'', price: '', user_id: '', product_id:'' });
   const [openModal, setOpenModal] = useState(false);
@@ -30,7 +30,7 @@ function SaleListAll() {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
-          }
+          },
         });
 
       const data = await response.json();
@@ -57,8 +57,8 @@ function SaleListAll() {
     setFormValues({
       quantity: sale.quantity,
       price: sale.price,
-      user_id: sale.user.user_id,
-      product_id: sale.product.product_id,
+      user_id: sale.user_id,
+      product_id: sale.product_id,
     }); //populate form with sales data
     setOpenModal(true);
   }
@@ -72,7 +72,7 @@ function SaleListAll() {
   // Function to submit the updated sale data
   async function  handleFormSubmit() {
     try {
-      const response = await fetch(`http://localhost:8080/api/sales/${currentSale.id}/change`, 
+      const response = await fetch(`http://localhost:8080/api/sales/${currentSale.id}/change/`, 
         {
           method: 'PUT',
           headers: {
@@ -115,7 +115,7 @@ function SaleListAll() {
   }
 
   return (
-    <Box bgColor="#e8eaf6" p={8} display="flex" justifyContent="center" sx={{minHeigth: '100vh'}}>
+    <Box backgroundColor="#e8eaf6" p={8} display="flex" justifyContent="center" sx={{minHeigth: '100vh'}}>
       <TableContainer component={Paper}>
         <h1 align="center">Vendas</h1>
         <Divider/>
@@ -127,14 +127,19 @@ function SaleListAll() {
               <TableCell align="left">Preço</TableCell>
               <TableCell align="left">ID do Cliente</TableCell>
               <TableCell align="left">ID do Produto</TableCell>
-              <TableCell align="left">Atualizar</TableCell>
+              <TableCell align="center">Atualizar</TableCell>
             </TableRow>
           </TableHead>
 
           <TableBody>
             { sales.map((sale) => (
-              <TableRow key={sale.id} hover sx={{'&:hover': {cursos: 'pointer',}, 
-              }}>
+              <TableRow key={sale.id} 
+                hover 
+                sx={{
+                  '&:hover': {
+                    cursor: 'pointer',
+                  }, 
+                }}>
                 <TableCell component="th" scope="row">{sale.id}</TableCell>
                 <TableCell align="left">{sale.quantity}</TableCell>
                 <TableCell align="left">{sale.price}</TableCell>
@@ -148,15 +153,17 @@ function SaleListAll() {
                   </IconButton>
                 </TableCell>
               </TableRow>
-            ))
-            }
+            ))}
           </TableBody>
         </Table>
       </TableContainer>
       
       {/* Modal Component for editing sale*/}
-      <Modal open={openModal} onClose={() => setOpenModal(false)}>
-        <Box bgColor="#FFF" sx={{ position: 'absolute', top: '50%', left: '50%',transform: 'translate(-50%, -50%)', width: 350, p: 4, borderRadius: '8px'}}>
+      <Modal open={openModal} 
+        onClose={() => setOpenModal(false)}>
+
+        <Box backgroundColor="#FFF" sx={{ position: 'absolute', top: '50%', left: '50%',transform: 'translate(-50%, -50%)', width: 350, p: 4, borderRadius: '8px'}}>
+
           <h2 align="center">Editar Venda</h2>
           <TextField 
             label="Quantidade"
@@ -200,7 +207,10 @@ function SaleListAll() {
 
       {/* Snackbar Component */}
       <Snackbar open={openSnackbar} autoHideDuration={6000} onClose={handleCloseSnackbar}>
-        <Alert onClose={handleCloseSnackbar} severity={snackbarSeverity} sx={{ width: '100%' }}>
+        <Alert onClose={handleCloseSnackbar} 
+          severity={snackbarSeverity} 
+          sx={{ width: '100%' }}
+        >
           {snackbarMessage}
         </Alert>
       </Snackbar>
