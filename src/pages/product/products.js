@@ -11,7 +11,6 @@ import {
   Divider,
 } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
-import "./style.css";
 import { useEffect, useState } from "react";
 
 const Products = () => {
