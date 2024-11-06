@@ -3,9 +3,9 @@ import { useState } from 'react';
 import { Card, CardContent, Typography, TextField, Button, Snackbar, Alert } from '@mui/material';
 import './style.css';
 
-function UserSignUp() {
+function AddUser() {
 
-    // UseState hook for managing alerts
+    // useState hooks for managing alerts
     const [openAlert, setOpenAlert] = useState(false) // Controls the visibility of the alert
     const [alertMessage, setAlertMessage] = useState('') // Holds the message to be displayed in the alert
     const [alertSeverity, setAlertSeverity] = useState('') // Defines the "type" of the alert's severity
@@ -28,6 +28,7 @@ function UserSignUp() {
 
     // Function for submitting the creation of a User
     async function submitUser() {
+        
         // Check if all required fileds are filled
         if (!formData.name || !formData.email || !formData.password || !formData.document) {
             setAlertMessage('To proceed with the Sign-up, all the required fileds must be filled out!');
@@ -49,7 +50,7 @@ function UserSignUp() {
 
             if (response.ok) {
                 console.log('User created with success!', data);
-                setAlertMessage('Your user was created with success!')
+                setAlertMessage('Your user was created with success!');
                 setAlertSeverity('success');
                 setOpenAlert(true);
 
@@ -62,14 +63,14 @@ function UserSignUp() {
                     is_active: true // Default value
                 })
             } else {
-                console.error('Failed to sign up the User:', data);
-                setAlertMessage('Failed to Sign Up!\nPlease try again!')
+                console.error('Failed to sign up the User!', data);
+                setAlertMessage('Failed to Sign Up!\nPlease try again!');
                 setAlertSeverity('error');
                 setOpenAlert(true);
             }
         }
         catch (error) {
-            console.error('Error Signing Up:', error)
+            console.error('An error occured while Signing Up!', error);
             setAlertMessage('An error occured while signing up!')
             setAlertSeverity('error');
             setOpenAlert(true);
@@ -78,7 +79,7 @@ function UserSignUp() {
 
     // Array of field configurations
     const fields = [
-        { label: 'Nome', name: 'name', type: 'text' },
+        { label: 'Name', name: 'name', type: 'text' },
         { label: 'E-mail', name: 'email', type: 'email' },
         { label: 'Password', name: 'password', type: 'password' },
         { label: 'Document', name: 'document', type: 'text' }
@@ -86,10 +87,10 @@ function UserSignUp() {
 
     return (
         <div id='user-signup-form'>
-            <Card sx={{ width: 400 }}>
+            <Card elevation={10} sx={{ width: 400 }}>
                 <CardContent>
                     <Typography variant='h4' component='h2' gutterBottom>
-                        Cadastre-se
+                        Create a new User
                     </Typography>
                     <form>
                         {fields.map((field) => (
@@ -117,13 +118,13 @@ function UserSignUp() {
                             sx={{ backgroundColor: '#3949ab', marginTop: 1 }}
                             onClick={submitUser}
                         >
-                            Cadastrar
+                            sign-up
                         </Button>
                     </form>
                 </CardContent>
             </Card>
 
-            {/* Snackbar for alerts*/}
+            {/* Snackbar for returning on-screen alerts*/}
             <Snackbar
                 open={openAlert}
                 autoHideDuration={6000} // Duration on milliseconds before closing the alert
@@ -142,4 +143,4 @@ function UserSignUp() {
     )
 }
 
-export default UserSignUp;
+export default AddUser;
