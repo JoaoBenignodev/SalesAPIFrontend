@@ -16,16 +16,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import { useEffect, useState } from "react";
 
 const Products = () => {
-    const [products, setproducts] = useState([
-        {
-            id: 1,
-            name: "Product 1",
-            quantity: 10,
-            price: 99.99,
-            is_active: true,
-            user_id: 101,
-        },
-    ]);
+    const [products, setproducts] = useState([]);
 
     async function fetchProducts() {
         try {
@@ -40,11 +31,11 @@ const Products = () => {
             );
 
             if (response.ok) {
-                setproducts(response.json());
+                const data = response.json();
+
+                setproducts(data ?? []);
                 return;
             }
-
-            setproducts([]);
         } catch (error) {
             console.error(error);
         }
@@ -88,28 +79,24 @@ const Products = () => {
                             </TableCell>
                             <TableCell
                                 sx={{ fontWeight: "bold" }}
-                                font
                                 align="right"
                             >
                                 Quantidade
                             </TableCell>
                             <TableCell
                                 sx={{ fontWeight: "bold" }}
-                                font
                                 align="right"
                             >
                                 Preço
                             </TableCell>
                             <TableCell
                                 sx={{ fontWeight: "bold" }}
-                                font
                                 align="center"
                             >
                                 Status
                             </TableCell>
                             <TableCell
                                 sx={{ fontWeight: "bold" }}
-                                font
                                 align="center"
                             />
                         </TableRow>
