@@ -31,7 +31,7 @@ const Products = () => {
             );
 
             if (response.ok) {
-                const data = response.json();
+                const data = await response.json();
 
                 setproducts(data ?? []);
                 return;
