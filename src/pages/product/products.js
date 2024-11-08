@@ -9,9 +9,11 @@ import {
   Box,
   IconButton,
   Divider,
+  Button,
 } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const Products = () => {
   const [products, setproducts] = useState([
@@ -24,6 +26,8 @@ const Products = () => {
       user_id: 101,
     },
   ]);
+
+  const navigate = useNavigate();
 
   async function fetchProducts() {
     try {
@@ -48,6 +52,10 @@ const Products = () => {
   useEffect(() => {
     fetchProducts();
   }, []);
+
+  function handleNavigateAddProduct() {
+    navigate("/product/add/");
+  }
 
   const productstest = [
     {
@@ -77,15 +85,20 @@ const Products = () => {
   ];
 
   return (
-    <Box
-      bgcolor="#e8eaf6"
-      p={8}
-      display="flex"
-      justifyContent="center"
-      sx={{ minHeight: "100vh" }}
-    >
-      <TableContainer component={Paper}>
-        <h1 align="center">Produtos</h1>
+    <Box p={8} width="100%">
+      <TableContainer
+        component={Paper}
+        sx={{ display: "flex", flexDirection: "column" }}
+      >
+        <Box alignSelf="flex-end" paddingX={4} paddingY={2}>
+          <Button
+            onClick={handleNavigateAddProduct}
+            variant="outlined"
+            color="success"
+          >
+            Adicionar produto
+          </Button>
+        </Box>
         <Divider />
         <Table arial-label="user table">
           <TableHead>
