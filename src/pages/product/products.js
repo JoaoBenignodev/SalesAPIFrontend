@@ -169,14 +169,14 @@ const Products = () => {
                                 </TableRow>
                             ))
                         ) : (
-                            <>
+                            <TableRow>
                                 <TableCell size="small">
                                     Nenhum produto encontrado
                                 </TableCell>
                                 <TableCell size="small" />
                                 <TableCell size="small" />
                                 <TableCell size="small" />
-                            </>
+                            </TableRow>
                         )}
                     </TableBody>
                 </Table>
