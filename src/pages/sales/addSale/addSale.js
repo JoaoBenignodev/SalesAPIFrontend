@@ -32,7 +32,7 @@ function AddSale() {
   // Function to fetch users
   const fetchUsers = async () => {
     try {
-      const response = await fetch('http://localhost:8080/api/users-list-all/');
+      const response = await fetch('http://localhost:8080/api/users/');
       const data = await response.json();
       setUsers(data);
         
@@ -44,7 +44,7 @@ function AddSale() {
   // Function to fetch products
   const fetchProducts = async () => {
     try {
-      const response = await fetch('http://localhost:8080/api/products');
+      const response = await fetch('http://localhost:8080/api/products/');
       const data = await response.json();
       setProducts(data);
 
