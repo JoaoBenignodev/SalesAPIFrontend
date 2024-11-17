@@ -57,7 +57,7 @@ function AddSale() {
     // Function for handling form input changes
     const handleChange = (e) => {
         const { name, value } = e.target;
-        setFormData(defaultState => ({...defaultState, [name]: value}));
+        setFormData(defaultState => ({ ...defaultState, [name]: value }));
     };
 
     // Function for submitting the creation of a Product
@@ -77,7 +77,7 @@ function AddSale() {
             setAlertSeverity('warning');
             setOpenAlert(true);
             return;
-        } 
+        }
 
         try {
             const response = await fetch('http://localhost:8080/api/sales/add/', {
@@ -108,7 +108,7 @@ function AddSale() {
                 setAlertSeverity('error');
                 setOpenAlert(true);
             }
-        } 
+        }
         catch (error) {
             console.log('And error occured while creating the Sale!', error);
             setAlertMessage('An error occured while registering the Sale!');
@@ -122,30 +122,33 @@ function AddSale() {
             <Card elevation={10} sx={{ width: 400 }}>
                 <CardContent>
                     <Typography variant='h4' component='h2' gutterBottom>
-                        Cadastrar Nova Venda
+                        Register a New Sale
                     </Typography>
                     <form>
                         {/* Quantity field configuration */}
                         <TextField
-                        label="Quantidade"
-                        variant="outlined"
-                        name="quantity"
-                        type="number"
-                        fullWidth
-                        value={formData.quantity}
-                        onChange={handleChange}
-                        required
+                            label='Quantity'
+                            variant='outlined'
+                            name='quantity'
+                            type='number'
+                            margin='normal'
+                            fullWidth
+                            value={formData.quantity}
+                            onChange={handleChange}
+                            required
                         />
 
                         {/* UserId field configuration */}
-                        <FormControl variant='outlined' fullWidth margin="normal">
+                        <FormControl variant='outlined' fullWidth margin='normal'>
                             <InputLabel>Cliente</InputLabel>
                             <Select
-                            label="Cliente"
-                            name="user_id"
-                            value={formData.user_id}
-                            onChange={handleChange}
-                            required
+                                label='Customer'
+                                name='user_id'
+                                margin='normal'
+                                fullWidth
+                                value={formData.user_id}
+                                onChange={handleChange}
+                                required
                             >
                                 {users.map((user) => (
                                     <MenuItem key={user.id} value={user.id}>
@@ -156,15 +159,17 @@ function AddSale() {
                         </FormControl>
 
                         {/* ProductId field configuration */}
-                        <FormControl variant="outlined" fullWidth margin="normal">
+                        <FormControl variant='outlined' fullWidth margin='normal'>
                             <InputLabel>Produto</InputLabel>
-                            <Select 
-                            label="Produto"
-                            name="product_id"
-                            value={formData.product_id}
-                            onChange={handleChange}
-                            required>
-                            
+                            <Select
+                                label='Product'
+                                name='product_id'
+                                margin='normal'
+                                fullWidth
+                                value={formData.product_id}
+                                onChange={handleChange}
+                                required>
+
                                 {products.map((product) => (
                                     <MenuItem key={product.id} value={product.id}>
                                         {product.name}
@@ -174,11 +179,12 @@ function AddSale() {
                         </FormControl>
 
                         <Button
-                        variant="contained"
-                        size="large"
-                        fullWidthsx={{backgroundColor: '#3949ab', marginTop: 1 }}
-                        onClick={submitSale}>
-                            Cadastrar
+                            variant='contained'
+                            size='large'
+                            fullWidth
+                            sx={{ backgroundColor: '#3949ab', marginTop: 1 }}
+                            onClick={submitSale}>
+                            Register Sale
                         </Button>
                     </form>
                 </CardContent>
@@ -186,14 +192,14 @@ function AddSale() {
 
             {/* Snackbar for returning on-screen alerts */}
             <Snackbar
-            open={openAlert}
-            autoHideDuration={6000}
-            onClose={() => setOpenAlert(false)}
-            anchorOrigin={{vertical: 'top', horizontal: 'center'}}>
-                <Alert
+                open={openAlert}
+                autoHideDuration={6000}
                 onClose={() => setOpenAlert(false)}
-                severity={alertSeverity}
-                sx={{ width: '100%'}}>
+                anchorOrigin={{ vertical: 'top', horizontal: 'center' }}>
+                <Alert
+                    onClose={() => setOpenAlert(false)}
+                    severity={alertSeverity}
+                    sx={{ width: '100%' }}>
                     {alertMessage}
                 </Alert>
             </Snackbar>
