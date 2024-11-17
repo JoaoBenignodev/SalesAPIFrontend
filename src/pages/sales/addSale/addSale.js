@@ -184,7 +184,7 @@ function AddSale() {
                             fullWidth
                             sx={{ backgroundColor: '#3949ab', marginTop: 1 }}
                             onClick={submitSale}>
-                            Cadastrar
+                            Register Sale
                         </Button>
                     </form>
                 </CardContent>
