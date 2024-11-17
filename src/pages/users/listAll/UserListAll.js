@@ -128,22 +128,45 @@ function UserListAll() {
             bgcolor="#e8eaf6"
             p={8}
             display="flex"
-            justifyContent="center"
+            flexDirection='column'
             width="100%"
         >
             <TableContainer component={Paper}>
-                <h1 align="center">Clientes</h1>
+                <h1 align="center">Customers</h1>
                 <Divider />
                 <Table arial-label="user table">
                     <TableHead>
                         <TableRow>
-                            <TableCell>ID</TableCell>
-                            <TableCell align="center">Nome</TableCell>
-                            <TableCell align="center">E-mail</TableCell>
-                            <TableCell align="center">Documento</TableCell>
-                            <TableCell align="center">Status</TableCell>
-                            <TableCell align="center">Atualizar</TableCell>
-                            {/* <TableCell align="center">Excluir</TableCell> */}
+                            <TableCell
+                                sx={{ fontWeight: "bold" }}
+                                align="left"
+                            >
+                                Name
+                            </TableCell>
+                            <TableCell
+                                sx={{ fontWeight: "bold" }}
+                                align="center"
+                            >
+                                E-mail
+                            </TableCell>
+                            <TableCell
+                                sx={{ fontWeight: "bold" }}
+                                align="center"
+                            >
+                                Document
+                            </TableCell>
+                            <TableCell
+                                sx={{ fontWeight: "bold" }}
+                                align="center"
+                            >
+                                Status
+                            </TableCell>
+                            <TableCell
+                                sx={{ fontWeight: "bold" }}
+                                align="center"
+                            >
+                                Actions
+                            </TableCell>
                         </TableRow>
                     </TableHead>
 
@@ -157,17 +180,16 @@ function UserListAll() {
                                         cursor: "pointer",
                                     },
                                 }}
-                                // style={{backgroundColor: index % 2 == 0 ? 'white' : 'whitesmoke'}} -> users.map((user, index)
-                                //onClick={() => alert(`cliente escolhido: ${user.name}`)}
+                            // style={{backgroundColor: index % 2 == 0 ? 'white' : 'whitesmoke'}} -> users.map((user, index)
+                            //onClick={() => alert(`cliente escolhido: ${user.name}`)}
                             >
-                                <TableCell component="th" scope="row">
-                                    {user.id}
+                                <TableCell align="left">
+                                    {user.name}
                                 </TableCell>
-                                <TableCell align="right">{user.name}</TableCell>
-                                <TableCell align="right">
+                                <TableCell align="center">
                                     {user.email}
                                 </TableCell>
-                                <TableCell align="right">
+                                <TableCell align="center">
                                     {user.document}
                                 </TableCell>
                                 <TableCell
@@ -181,23 +203,23 @@ function UserListAll() {
                                     >
                                         {user.is_active ? (
                                             <Box
-                                                sx={{ minWidth: 60 }}
+                                                sx={{ minWidth: 60, fontWeight: 'bold' }}
                                                 px={2}
                                                 bgcolor="#7986cb"
-                                                borderRadius="16px"
+                                                borderRadius="10px"
                                                 color="#FFF"
                                             >
-                                                Ativo
+                                                Active
                                             </Box>
                                         ) : (
                                             <Box
-                                                sx={{ minWidth: 60 }}
+                                                sx={{ minWidth: 60, fontWeight: 'bold' }}
                                                 px={2}
-                                                bgcolor="#c5cae9"
-                                                borderRadius="16px"
+                                                bgcolor="#ff7878cb"
+                                                borderRadius="10px"
                                                 color="#FFF"
                                             >
-                                                Não ativo
+                                                Inactive
                                             </Box>
                                         )}
                                     </Box>
@@ -233,7 +255,7 @@ function UserListAll() {
                 >
                     <h2 align="center">Editar Cliente</h2>
                     <TextField
-                        label="Nome"
+                        label="Name"
                         name="name"
                         value={formValues.name}
                         onChange={handleInputChange}
@@ -249,7 +271,7 @@ function UserListAll() {
                         margin="normal"
                     />
                     <TextField
-                        label="Documento"
+                        label="Document"
                         name="document"
                         value={formValues.document}
                         onChange={handleInputChange}
@@ -270,7 +292,7 @@ function UserListAll() {
                                 "&.Mui-checked": { color: "#3949ab" },
                             }}
                         />
-                        <span>Ativo</span>
+                        <span>Active</span>
                     </Box>
 
                     <Box display="flex" justifyContent="center" mt={2}>
@@ -280,7 +302,7 @@ function UserListAll() {
                             onClick={handleFormSubmit}
                             sx={{ backgroundColor: "#3949ab" }}
                         >
-                            Atualizar
+                            Update
                         </Button>
                     </Box>
                 </Box>
