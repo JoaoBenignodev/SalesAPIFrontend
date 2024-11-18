@@ -2,6 +2,7 @@
 import { useCallback, useState, useEffect } from 'react';
 import { Card, CardContent, Typography, TextField, Button, FormControl, InputLabel, Select, MenuItem, Alert, Snackbar } from '@mui/material'
 import './style.css';
+import { useNavigate } from 'react-router-dom';
 
 function AddProduct() {
 
@@ -9,6 +10,8 @@ function AddProduct() {
     const [openAlert, setOpenAlert] = useState(false) // Controls the visibility of the alert
     const [alertMessage, setAlertMessage] = useState('') // Holds the message to be displayed in the alert
     const [alertSeverity, setAlertSeverity] = useState('') // Defines the "type" of the alert's severity
+
+    const navigate = useNavigate();
 
     // UseState hook to manage User data
     const [users, setUsers] = useState([]);
@@ -82,7 +85,6 @@ function AddProduct() {
                 setAlertSeverity('success');
                 setOpenAlert(true);
 
-
                 // Resetting the form data
                 setFormData({
                     name: '',
@@ -91,6 +93,11 @@ function AddProduct() {
                     is_active: true, // Default value
                     user_id: '', // Parent(User) key
                 })
+
+                setTimeout(() => {
+                    // Navigate to Products
+                    navigate("/products")
+                },2000);
             } else {
                 console.error('Failed to create Product!', data);
                 setAlertMessage('Failed to register Product!\nPlease try again!');
