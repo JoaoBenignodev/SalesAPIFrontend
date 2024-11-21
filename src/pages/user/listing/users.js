@@ -19,7 +19,7 @@ import {
 import EditIcon from "@mui/icons-material/Edit";
 import Divider from "@mui/joy/Divider";
 
-function UserListAll() {
+function Users() {
     //useState hook to store the list of users
     const [users, setUsers] = useState([]);
     const [openModal, setOpenModal] = useState(false);
@@ -326,4 +326,4 @@ function UserListAll() {
     );
 }
 
-export default UserListAll;
+export default Users;
