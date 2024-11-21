@@ -4,7 +4,7 @@ import EditIcon from '@mui/icons-material/Edit';
 
 
 
-function SaleListAll() {
+function Sales() {
 
     //useState hook to store the list of Sales
     const [sales, setSales] = useState([]);
@@ -244,4 +244,4 @@ function SaleListAll() {
 
 }
 
-export default SaleListAll; 
+export default Sales; 
