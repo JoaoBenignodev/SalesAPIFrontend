@@ -19,7 +19,7 @@ import {
 } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit"
 import { useEffect, useState } from "react";
-import { formatLocale } from "../../utils/formatLocale";
+import { formatLocale } from "../../../utils/formatLocale";
 
 const Products = () => {
 
