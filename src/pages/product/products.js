@@ -1,24 +1,32 @@
 import {
+    Alert,
     Box,
+    Button,
     Checkbox,
+    Divider,
     IconButton,
     Modal,
     Paper,
+    Snackbar,
     Table,
     TableBody,
     TableCell,
     TableContainer,
     TableHead,
     TableRow,
-    TextField,
-    Divider,
-    Button
+    TextField
+    
 } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit"
 import { useEffect, useState } from "react";
 import { formatLocale } from "../../utils/formatLocale";
 
 const Products = () => {
+
+    // useState hooks for managing alerts
+    const [openAlert, setOpenAlert] = useState(false) // Controls the visibility of the alert
+    const [alertMessage, setAlertMessage] = useState('') // Holds the message to be displayed in the alert
+    const [alertSeverity, setAlertSeverity] = useState('') // Defines the "type" of the alert's severity
 
     // useState hook to store the Products llisting
     const [products, setProducts] = useState([]);
@@ -90,6 +98,23 @@ const Products = () => {
 
     // Function for submitting the update of a Product
     async function updateProduct() {
+
+        // Check if all the required fields are filled
+        if (!formData.name || !formData.quantity || !formData.price || !formData.user_id) {
+            setAlertMessage('To proceed with the creation, all the required fileds must be filled out!');
+            setAlertSeverity('warning');
+            setOpenAlert(true);
+            return
+        }
+
+        // Check if the given Quantity or Price are greater than 0
+        if (formData.quantity <= 0 || formData.price <= 0.00) {
+            setAlertMessage('A product needs to have at least 1 unit and a Price greater than 0.00!');
+            setAlertSeverity('warning');
+            setOpenAlert(true);
+            return;
+        }
+
         try {
             const response = await fetch(`http://localhost:8080/api/products/${product.id}/change/`, {
                 method: "PUT",
@@ -102,7 +127,10 @@ const Products = () => {
             const data = await response.json();
 
             if (response.ok) {
-                console.log('Product updated with success!', data);
+                console.log('Product updated with success!', data)
+                setAlertMessage('The Product was updated with success!');
+                setAlertSeverity('success');
+                setOpenAlert(true);;
 
                 // Closes the Edit Product Modal
                 setOpenModal(false)
@@ -111,10 +139,17 @@ const Products = () => {
                 fetchProducts()
 
             } else {
-                console.error('Failed to update the Products!', data);
+                console.error('Failed to update the Product!', data);
+                setAlertMessage('Failed to update the Product!\nPlease try again!');
+                setAlertSeverity('error');
+                setOpenAlert(true);
+                
             }
         } catch (error) {
             console.error('An error occured while updating the Product!', error);
+            setAlertMessage('An error occured while updating the Product!');
+            setAlertSeverity('error');
+            setOpenAlert(true);
         }
     }
 
@@ -293,12 +328,29 @@ const Products = () => {
 
                     <Box display="flex" justifyContent="center" mt={2}>
                         <Button variant="contained" size="large" onClick={updateProduct} sx={{ backgroundColor: "#3949ab" }}>
-                            Atualizar
+                            Update Product
                         </Button>
                     </Box>
                 </Box>
             </Modal>
+
+            {/* Snackbar for returning on-screen alerts*/}
+            <Snackbar
+                open={openAlert}
+                autoHideDuration={6000} // Duration on milliseconds before closing the alert
+                onClose={() => setOpenAlert(false)}
+                anchorOrigin={{ vertical: 'down', horizontal: 'left' }} // Snackbar's screen relative position
+            >
+                <Alert
+                    onClose={() => setOpenAlert(false)}
+                    severity={alertSeverity}
+                    sx={{ width: '100%' }}
+                >
+                    {alertMessage}
+                </Alert>
+            </Snackbar>
         </Box >
+        
 
     );
 

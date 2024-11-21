@@ -81,7 +81,7 @@ function AddProduct() {
 
             if (response.ok) {
                 console.log('Product created with success!', data);
-                setAlertMessage('The product was created with success!');
+                setAlertMessage('The Product was created with success!');
                 setAlertSeverity('success');
                 setOpenAlert(true);
 
@@ -98,6 +98,7 @@ function AddProduct() {
                     // Navigate to Products
                     navigate("/products")
                 },2000);
+
             } else {
                 console.error('Failed to create Product!', data);
                 setAlertMessage('Failed to register Product!\nPlease try again!');
@@ -107,7 +108,7 @@ function AddProduct() {
         }
         catch (error) {
             console.log('And error occured while creating the Product!', error);
-            setAlertMessage('An erro occured while registering the Product!');
+            setAlertMessage('An error occured while registering the Product!');
             setAlertSeverity('error');
             setOpenAlert(true);
         }
