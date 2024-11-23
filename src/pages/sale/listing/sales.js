@@ -127,13 +127,13 @@ function Sales() {
                         <TableRow>
                             <TableCell
                                 sx={{ fontWeight: ' bold' }}
-                                align="left"
+                                align="center"
                             >
                                 Product
                             </TableCell>
                             <TableCell
                                 sx={{ fontWeight: ' bold' }}
-                                align="left"
+                                align="center"
                             >
                                 Customer
                             </TableCell>
@@ -166,8 +166,8 @@ function Sales() {
                                         cursor: 'pointer',
                                     },
                                 }}>
-                                <TableCell align="left">{sale.product_id}</TableCell>
-                                <TableCell align="left">{sale.user_id}</TableCell>
+                                <TableCell align="center">{sale.product_name}</TableCell>
+                                <TableCell align="center">{sale.user_name}</TableCell>
                                 <TableCell align="center">{sale.quantity}</TableCell>
                                 <TableCell align="right">{sale.price}</TableCell>
                                 <TableCell align="center">
@@ -208,14 +208,6 @@ function Sales() {
                         label="Quantidade"
                         name="quantity"
                         value={formValues.quantity}
-                        onChange={handleInputChange}
-                        fullWidth
-                        margin="normal"
-                    />
-                    <TextField
-                        label="Preço"
-                        name="price"
-                        value={formValues.price}
                         onChange={handleInputChange}
                         fullWidth
                         margin="normal"

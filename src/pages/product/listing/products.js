@@ -215,7 +215,7 @@ const Products = () => {
                                     {product.name}
                                 </TableCell>
                                 <TableCell align="center">
-                                    {product.user_id}
+                                    {product.user_name}
                                 </TableCell>
                                 <TableCell align="center">
                                     {product.quantity}
