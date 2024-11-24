@@ -1,25 +1,26 @@
-import { useState, useEffect } from 'react';
-import { Alert, Box, Button, Divider, IconButton, Modal, Paper, Snackbar, Table, TableContainer, TableHead, TableRow, TableCell, TableBody, TextField } from "@mui/material";
+import { useCallback, useEffect, useState } from 'react';
+import { Alert, Box, Button, Divider, IconButton, Modal, Paper, Snackbar, Table, TableContainer, TableHead, TableRow, TableCell, TableBody, TextField, FormControl, InputLabel, Select, MenuItem } from "@mui/material";
 import EditIcon from '@mui/icons-material/Edit';
 
 
 
 function Sales() {
 
-    //useState hook to store the list of Sales
+    // useState hook to store the list of Sales
     const [sales, setSales] = useState([]);
-    // const [user_id, setUser_id] = useState([]);
+
+    // useState hook to manage Users data
+    const [users, setUsers] = useState([]);
+
+    // useState hook to manage Products data
+    const [products, setProducts] = useState([]);
+
     const [currentSale, setCurrentSale] = useState(null);
     const [formValues, setFormValues] = useState({ quantity: '', price: '', user_id: '', product_id: '' });
     const [openModal, setOpenModal] = useState(false);
     const [openSnackbar, setOpenSnackbar] = useState(false);
     const [snackbarMessage, setSnackbarMessage] = useState('');
     const [snackbarSeverity, setSnackbarSeverity] = useState('success');
-
-    //useEffect hook to fetch sales when the component loads
-    useEffect(() => {
-        fetchSales();
-    }, []);
 
     // Function to fetch all sales from the frontend
     async function fetchSales() {
@@ -50,6 +51,47 @@ function Sales() {
             setOpenSnackbar(true);
         }
     }
+
+    //useEffect hook to fetch sales when the component loads
+    useEffect(() => {
+        fetchSales();
+    }, []);
+
+
+    // Function to fecth all the Users for the customer.id selection listinig on the Update Modal
+    const fetchUsers = useCallback(() => {
+        fetch('http://localhost:8080/api/users/')
+            .then((response) => response.json())
+            .then((data) => {
+                setUsers(data);
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+    }, []);
+
+    // useEffect hook to synchronize all the data queried from the fetchUsers
+    useEffect(() => {
+        fetchUsers();
+    }, [fetchUsers]);
+
+    // Function to fecth all the Users for the customer.id selection listinig on the Update Modal
+    const fetchProducts = useCallback(() => {
+        fetch('http://localhost:8080/api/products/')
+            .then((response) => response.json())
+            .then((data) => {
+                setProducts(data);
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+    }, []);
+
+    // useEffect hook to synchronize all the data queried from the fetchProducts
+    useEffect(() => {
+        fetchProducts();
+    }, [fetchProducts]);
+
 
     // Function to handle Sale update
     function updateSale(sale) {
@@ -88,6 +130,16 @@ function Sales() {
                         sale.id === updatedSale.id ? updatedSale : sale
                     )
                 );
+
+                // Fetch the Product listing considering the updated data
+                fetchSales()
+
+                // Fetch the User to ensure newly registered Users are listed in the FormControl 
+                fetchUsers()
+
+                // Fetch the Product to ensure newly registered Products are listed in the FormControl 
+                fetchProducts()
+
 
                 setOpenModal(false);
                 setSnackbarMessage('Venda atualizada com sucesso!');
@@ -187,25 +239,48 @@ function Sales() {
 
                 <Box backgroundColor="#FFF" sx={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: 350, p: 4, borderRadius: '8px' }}>
 
-                    <h2 align="center">Editar Venda</h2>
+                    <h2 align="center">Edit Sale</h2>
+
+                    {/* UserId field configuration */}
+                    <FormControl variant="outlined" fullWidth margin="normal">
+                        <InputLabel>Customer</InputLabel>
+                        <Select
+                            label="Customer"
+                            name="user_id"
+                            value={formValues.user_id}
+                            onChange={handleInputChange}
+                            required
+                        >
+                            {users.map((user) => (
+                                <MenuItem key={user.id} value={user.id}>
+                                    {user.name}
+                                </MenuItem>
+                            ))}
+                        </Select>
+                    </FormControl>
+
+                    {/* ProductId field configuration */}
+                    <FormControl variant="outlined" fullWidth margin="normal">
+                        <InputLabel>Product</InputLabel>
+                        <Select
+                            label="Product"
+                            name="product_id"
+                            value={formValues.product_id}
+                            onChange={handleInputChange}
+                            required
+                        >
+                            {products.map((product) => (
+                                <MenuItem key={product.id} value={product.id}>
+                                    {product.name}
+                                </MenuItem>
+                            ))}
+                        </Select>
+                    </FormControl>
+
+
+                    {/* Quantity field configuration */}
                     <TextField
-                        label="ID do Cliente"
-                        name="user_id"
-                        value={formValues.user_id}
-                        onChange={handleInputChange}
-                        fullWidth
-                        margin="normal"
-                    />
-                    <TextField
-                        label="ID do Produto"
-                        name="product_id"
-                        value={formValues.product_id}
-                        onChange={handleInputChange}
-                        fullWidth
-                        margin="normal"
-                    />
-                    <TextField
-                        label="Quantidade"
+                        label="Quantity"
                         name="quantity"
                         value={formValues.quantity}
                         onChange={handleInputChange}
@@ -214,7 +289,7 @@ function Sales() {
                     />
                     <Box display="flex" justifyContent="center" mt={2}>
                         <Button variant="contained" size="large" onClick={handleFormSubmit} sx={{ backgroundColor: "#3949ab" }}>
-                            Atualizar
+                            Update Sale
                         </Button>
                     </Box>
                 </Box>

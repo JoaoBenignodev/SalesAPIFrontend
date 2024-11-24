@@ -34,7 +34,7 @@ const Products = () => {
     // useState hook to store the Products llisting
     const [products, setProducts] = useState([]);
 
-    // useState hook to manage a User data
+    // useState hook to manage Users data
     const [users, setUsers] = useState([]);
 
     // useState hook to manage a Product data
