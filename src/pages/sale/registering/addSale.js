@@ -140,7 +140,7 @@ function AddSale() {
 
                         {/* UserId field configuration */}
                         <FormControl variant='outlined' fullWidth margin='normal'>
-                            <InputLabel>Cliente</InputLabel>
+                            <InputLabel>Customer</InputLabel>
                             <Select
                                 label='Customer'
                                 name='user_id'
@@ -160,7 +160,7 @@ function AddSale() {
 
                         {/* ProductId field configuration */}
                         <FormControl variant='outlined' fullWidth margin='normal'>
-                            <InputLabel>Produto</InputLabel>
+                            <InputLabel>Product</InputLabel>
                             <Select
                                 label='Product'
                                 name='product_id'
