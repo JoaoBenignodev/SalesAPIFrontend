@@ -1,6 +1,7 @@
 // Importing
 import { useState } from 'react';
 import { Card, CardContent, Typography, TextField, Button, Snackbar, Alert } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 import './style.css';
 
 function AddUser() {
@@ -9,6 +10,9 @@ function AddUser() {
     const [openAlert, setOpenAlert] = useState(false) // Controls the visibility of the alert
     const [alertMessage, setAlertMessage] = useState('') // Holds the message to be displayed in the alert
     const [alertSeverity, setAlertSeverity] = useState('') // Defines the "type" of the alert's severity
+
+    // Instancing useNavigate function
+    const navigateTo = useNavigate()
 
     // useState hook to manage form input data
     // Initial state of the formData is set with empty strings for each field
@@ -62,6 +66,12 @@ function AddUser() {
                     document: '',
                     is_active: true // Default value
                 })
+
+                // Navigate to the Users listing
+                setTimeout(() => {
+                    navigateTo('/users/')
+                }, 2000);
+
             } else {
                 console.error('Failed to sign up the User!', data);
                 setAlertMessage('Failed to Sign Up!\nPlease try again!');
@@ -115,7 +125,7 @@ function AddUser() {
                             variant='contained'
                             size='large'
                             fullWidth
-                            sx={{ backgroundColor: '#3949ab', marginTop: 1 }}
+                            sx={{ fontWeight: 'bold', backgroundColor: '#3949ab', marginTop: 1 }}
                             onClick={submitUser}
                         >
                             sign-up

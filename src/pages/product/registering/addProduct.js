@@ -1,8 +1,8 @@
 // Importing
 import { useCallback, useState, useEffect } from 'react';
 import { Card, CardContent, Typography, TextField, Button, FormControl, InputLabel, Select, MenuItem, Alert, Snackbar } from '@mui/material'
-import './style.css';
 import { useNavigate } from 'react-router-dom';
+import './style.css';
 
 function AddProduct() {
 
@@ -96,7 +96,7 @@ function AddProduct() {
 
                 setTimeout(() => {
                     // Navigate to Products
-                    navigate("/products")
+                    navigate("/products/")
                 },2000);
 
             } else {
@@ -186,7 +186,7 @@ function AddProduct() {
                             variant='contained'
                             size='large'
                             fullWidth
-                            sx={{ backgroundColor: '#3949ab', marginTop: 1 }}
+                            sx={{ fontWeight: 'bold', backgroundColor: '#3949ab', marginTop: 1 }}
                             onClick={submitProduct}
                         >
                             add product

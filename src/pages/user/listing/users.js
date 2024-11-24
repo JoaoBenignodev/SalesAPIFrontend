@@ -17,6 +17,7 @@ import {
     Checkbox,
 } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
+import AddIcon from '@mui/icons-material/Add';
 import Divider from "@mui/joy/Divider";
 
 function Users() {
@@ -90,31 +91,32 @@ function Users() {
                         "Content-Type": "application/json",
                     },
                     body: JSON.stringify(formValues),
-                }
-            );
+                });
+
+            const data = await response.json();
 
             if (response.ok) {
-                const updatedUser = await response.json();
-                setUsers((prevUsers) =>
-                    prevUsers.map((user) =>
-                        user.id === updatedUser.id ? updatedUser : user
-                    )
-                );
-                setOpenModal(false); // close the modal
-                setSnackbarMessage("Cliente atualizado com sucesso!");
+                console.log("User updated with success!", data);
+                setSnackbarMessage('The Customer was updated with success!');
                 setSnackbarSeverity("success");
                 setOpenSnackbar(true);
+
+                setOpenModal(false) //Closes the Modal
+
+                // Fetch the Product listing considering the updated data
+                fetchUsers()
+
             } else {
-                setSnackbarMessage("Erro ao atualizar o cliente");
+                console.error("Failed to update the User!", data);
+                setSnackbarMessage("Failed to update the Customer!\nPlease try again!");
                 setSnackbarSeverity("error");
                 setOpenSnackbar(true);
-                console.error("Failed to update user");
             }
         } catch (error) {
-            setSnackbarMessage("Erro ao atualizar o cliente");
+            console.error('An error occured while updating the User!', error);
+            setSnackbarMessage("An error occured while updating the Customer!");
             setSnackbarSeverity("error");
             setOpenSnackbar(true);
-            console.error("Error updating user: ", error);
         }
     }
 
@@ -132,14 +134,36 @@ function Users() {
             width="100%"
         >
             <TableContainer component={Paper}>
-                <h1 align="center">Customers</h1>
+                <Box
+                    paddingX={5}
+                    paddingY={3.1}
+                    display='flex'
+                    justifyContent='center'
+                    alignItems='center'
+                >
+                    <h1
+                        align="center"
+                        style={{ flex: 1, textAlign: 'center' }}
+                    >
+                        Customers
+                    </h1>
+                    <Button
+                        variant='contained'
+                        size='large'
+                        href="/users/add/"
+                        endIcon={<AddIcon />}
+                        sx={{ fontWeight: 'bold', backgroundColor: '#3949ab' }}
+                    >
+                        ADD
+                    </Button>
+                </Box>
                 <Divider />
                 <Table arial-label="user table">
                     <TableHead>
                         <TableRow>
                             <TableCell
                                 sx={{ fontWeight: "bold" }}
-                                align="left"
+                                align="center"
                             >
                                 Name
                             </TableCell>
@@ -183,7 +207,7 @@ function Users() {
                             // style={{backgroundColor: index % 2 == 0 ? 'white' : 'whitesmoke'}} -> users.map((user, index)
                             //onClick={() => alert(`cliente escolhido: ${user.name}`)}
                             >
-                                <TableCell align="left">
+                                <TableCell align="center">
                                     {user.name}
                                 </TableCell>
                                 <TableCell align="center">
@@ -253,7 +277,7 @@ function Users() {
                         borderRadius: "8px",
                     }}
                 >
-                    <h2 align="center">Editar Cliente</h2>
+                    <h2 align="center">Edit Customer</h2>
                     <TextField
                         label="Name"
                         name="name"
@@ -302,7 +326,7 @@ function Users() {
                             onClick={handleFormSubmit}
                             sx={{ backgroundColor: "#3949ab" }}
                         >
-                            Update
+                            Update Customer
                         </Button>
                     </Box>
                 </Box>

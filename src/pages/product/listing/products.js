@@ -21,6 +21,7 @@ import {
     TextField
 } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit"
+import AddIcon from "@mui/icons-material/Add"
 import { useCallback, useEffect, useState } from "react";
 import { formatLocale } from "../../../utils/formatLocale";
 
@@ -126,7 +127,7 @@ const Products = () => {
 
         // Check if all the required fields are filled
         if (!formData.name || !formData.quantity || !formData.price || !formData.user_id) {
-            setAlertMessage('To proceed with the creation, all the required fileds must be filled out!');
+            setAlertMessage('To proceed with the update, all the required fileds must be filled out!');
             setAlertSeverity('warning');
             setOpenAlert(true);
             return
@@ -134,7 +135,7 @@ const Products = () => {
 
         // Check if the given Quantity or Price are greater than 0
         if (formData.quantity <= 0 || formData.price <= 0.00) {
-            setAlertMessage('A product needs to have at least 1 unit and a Price greater than 0.00!');
+            setAlertMessage('A Product needs to have at least 1 unit and a Price greater than 0.00!');
             setAlertSeverity('warning');
             setOpenAlert(true);
             return;
@@ -187,7 +188,29 @@ const Products = () => {
                 component={Paper}
                 sx={{ display: 'flex', flexDirection: 'column' }}
             >
-                <h1 align="center">Products</h1>
+                <Box
+                    paddingX={5}
+                    paddingY={3.1}
+                    display='flex'
+                    justifyContent='center'
+                    alignItems='center'
+                >
+                    <h1
+                        align="center"
+                        style={{ flex: 1, textAlign: 'center' }}
+                    >
+                        Products
+                    </h1>
+                    <Button
+                        variant='contained'
+                        size='large'
+                        href="/products/add/"
+                        endIcon={<AddIcon />}
+                        sx={{ fontWeight: 'bold', backgroundColor: '#3949ab' }}
+                    >
+                        ADD
+                    </Button>
+                </Box>
                 <Divider />
                 <Table arial-label="sale table">
                     <TableHead>
