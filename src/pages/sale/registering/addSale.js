@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { Card, CardContent, Typography, TextField, Button, FormControl, InputLabel, Select, MenuItem, Alert, Snackbar } from '@mui/material'
+import { useNavigate } from 'react-router-dom';
 import './style.css';
 
 function AddSale() {
@@ -7,6 +8,9 @@ function AddSale() {
     const [openAlert, setOpenAlert] = useState(false) // Controls the visibility of the alert
     const [alertMessage, setAlertMessage] = useState('') // Holds the message to be displayed in the alert
     const [alertSeverity, setAlertSeverity] = useState('') // Defines the "type" of the alert's severity
+
+    // Instancing useNavigate function
+    const navigateTo = useNavigate()
 
     // UseState hook to manage User data
     const [users, setUsers] = useState([]);
@@ -102,6 +106,12 @@ function AddSale() {
                     user_id: '',
                     product_id: '',
                 })
+
+                // Navigate to the Sales listing
+                setTimeout(() => {
+                    navigateTo('/sales')
+                }, 2000);
+
             } else {
                 console.error('Failed to create Sale!', data);
                 setAlertMessage('Failed to register Sale!\nPlease try again!');

@@ -126,7 +126,7 @@ const Products = () => {
 
         // Check if all the required fields are filled
         if (!formData.name || !formData.quantity || !formData.price || !formData.user_id) {
-            setAlertMessage('To proceed with the creation, all the required fileds must be filled out!');
+            setAlertMessage('To proceed with the update, all the required fileds must be filled out!');
             setAlertSeverity('warning');
             setOpenAlert(true);
             return
@@ -134,7 +134,7 @@ const Products = () => {
 
         // Check if the given Quantity or Price are greater than 0
         if (formData.quantity <= 0 || formData.price <= 0.00) {
-            setAlertMessage('A product needs to have at least 1 unit and a Price greater than 0.00!');
+            setAlertMessage('A Product needs to have at least 1 unit and a Price greater than 0.00!');
             setAlertSeverity('warning');
             setOpenAlert(true);
             return;

@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 import { Alert, Box, Button, Divider, IconButton, Modal, Paper, Snackbar, Table, TableContainer, TableHead, TableRow, TableCell, TableBody, TextField, FormControl, InputLabel, Select, MenuItem } from "@mui/material";
+import { formatLocale } from '../../../utils/formatLocale';
 import EditIcon from '@mui/icons-material/Edit';
 
 
@@ -113,6 +114,22 @@ function Sales() {
 
     // Function to submit the updated sale data
     async function handleFormSubmit() {
+        // Check if all the required fields are filled
+        if (!formValues.quantity || !formValues.user_id || !formValues.product_id) {
+            setSnackbarMessage('To proceed with the update, all the required fileds must be filled out!');
+            setSnackbarSeverity('warning');
+            setOpenSnackbar(true);
+            return
+        }
+
+        // Check if the given Quantity or Price are greater than 0
+        if (formValues.quantity <= 0) {
+            setSnackbarMessage('A Sale needs to have at least 1 Product unit!');
+            setSnackbarSeverity('warning');
+            setOpenSnackbar(true);
+            return;
+        }
+
         try {
             const response = await fetch(`http://localhost:8080/api/sales/${currentSale.id}/change/`,
                 {
@@ -123,13 +140,15 @@ function Sales() {
                     body: JSON.stringify(formValues),
                 });
 
+                const data = response.json()
+
             if (response.ok) {
-                const updatedSale = await response.json();
-                setSales((prevSales) =>
-                    prevSales.map((sale) =>
-                        sale.id === updatedSale.id ? updatedSale : sale
-                    )
-                );
+                console.log("Sale updated with success!", data);
+                setSnackbarMessage('The Sale was updated with success!');
+                setSnackbarSeverity("success");
+                setOpenSnackbar(true);
+
+                setOpenModal(false); // Closes the modal
 
                 // Fetch the Product listing considering the updated data
                 fetchSales()
@@ -141,23 +160,18 @@ function Sales() {
                 fetchProducts()
 
 
-                setOpenModal(false);
-                setSnackbarMessage('Venda atualizada com sucesso!');
-                setSnackbarSeverity('success');
-                setOpenSnackbar(true);
-
             } else {
-                setSnackbarMessage('Erro ao atualizar a venda');
-                setSnackbarSeverity('error');
+                console.error("Failed to update the Sale!", data);
+                setSnackbarMessage("Failed to update the Sale!\nPlease try again!");
+                setSnackbarSeverity("error");
                 setOpenSnackbar(true);
-                console.log('Failed to update sale');
             }
 
         } catch (error) {
-            setSnackbarMessage('Erro ao atualizar a venda');
-            setSnackbarSeverity('error');
+            console.error('An error occured while updating the Sale!', error);
+            setSnackbarMessage("An error occured while updating the Sale!");
+            setSnackbarSeverity("error");
             setOpenSnackbar(true);
-            console.error('Error updating sale: ', error);
         }
     };
 
@@ -197,7 +211,7 @@ function Sales() {
                             </TableCell>
                             <TableCell
                                 sx={{ fontWeight: ' bold' }}
-                                align="right"
+                                align="center"
                             >
                                 Price
                             </TableCell>
@@ -221,7 +235,7 @@ function Sales() {
                                 <TableCell align="center">{sale.product_name}</TableCell>
                                 <TableCell align="center">{sale.user_name}</TableCell>
                                 <TableCell align="center">{sale.quantity}</TableCell>
-                                <TableCell align="right">{sale.price}</TableCell>
+                                <TableCell align="center">{formatLocale(sale.price)}</TableCell>
                                 <TableCell align="center">
                                     <IconButton aria-label="edit sale" onClick={() => updateSale(sale)}>
                                         <EditIcon />
