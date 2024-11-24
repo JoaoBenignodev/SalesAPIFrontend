@@ -4,9 +4,13 @@ import {
     Button,
     Checkbox,
     Divider,
+    FormControl,
     IconButton,
+    InputLabel,
+    MenuItem,
     Modal,
     Paper,
+    Select,
     Snackbar,
     Table,
     TableBody,
@@ -15,10 +19,9 @@ import {
     TableHead,
     TableRow,
     TextField
-    
 } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit"
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { formatLocale } from "../../../utils/formatLocale";
 
 const Products = () => {
@@ -30,6 +33,10 @@ const Products = () => {
 
     // useState hook to store the Products llisting
     const [products, setProducts] = useState([]);
+
+    // useState hook to manage a User data
+    const [users, setUsers] = useState([]);
+
     // useState hook to manage a Product data
     const [product, setProduct] = useState({});
 
@@ -63,6 +70,24 @@ const Products = () => {
     useEffect(() => {
         fetchProducts();
     }, []);
+
+    // Function to fecth all the Users for the customer.id selection listinig on the Update Modal
+    const fetchUsers = useCallback(() => {
+        fetch('http://localhost:8080/api/users/')
+            .then((response) => response.json())
+            .then((data) => {
+                setUsers(data);
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+    }, []);
+
+    // useEffect hook to synchronize all the data queried from the fetchUsers
+    useEffect(() => {
+        fetchUsers();
+    }, [fetchUsers]);
+
 
     // useState hook to manage form inputted data
     const [formData, setFormData] = useState({
@@ -138,12 +163,15 @@ const Products = () => {
                 // Fetch the Product listing considering the updated data
                 fetchProducts()
 
+                // Fetch the User to ensure newly registered Users are listed in the FormControl 
+                fetchUsers()
+
             } else {
                 console.error('Failed to update the Product!', data);
                 setAlertMessage('Failed to update the Product!\nPlease try again!');
                 setAlertSeverity('error');
                 setOpenAlert(true);
-                
+
             }
         } catch (error) {
             console.error('An error occured while updating the Product!', error);
@@ -277,6 +305,8 @@ const Products = () => {
                 <Box backgroundColor="#FFF" sx={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: 350, p: 4, borderRadius: '8px' }}>
 
                     <h2 align="center">Edit Product</h2>
+
+                    {/* Name field configuration */}
                     <TextField
                         label="Product"
                         name="name"
@@ -285,14 +315,8 @@ const Products = () => {
                         fullWidth
                         margin="normal"
                     />
-                    <TextField
-                        label="Customer"
-                        name="user_id"
-                        value={formData.user_id}
-                        onChange={handleChange}
-                        fullWidth
-                        margin="normal"
-                    />
+
+                    {/* Quantity field configuration */}
                     <TextField
                         label="Quantidade"
                         name="quantity"
@@ -301,6 +325,8 @@ const Products = () => {
                         fullWidth
                         margin="normal"
                     />
+
+                    {/* Price field configuration */}
                     <TextField
                         label="Price"
                         name="price"
@@ -309,6 +335,26 @@ const Products = () => {
                         fullWidth
                         margin="normal"
                     />
+
+                    {/* UserId field configuration */}
+                    <FormControl variant="outlined" fullWidth margin="normal">
+                        <InputLabel>Customer</InputLabel>
+                        <Select
+                            label="Customer"
+                            name="user_id"
+                            value={formData.user_id}
+                            onChange={handleChange}
+                            required
+                        >
+                            {users.map((user) => (
+                                <MenuItem key={user.id} value={user.id}>
+                                    {user.name}
+                                </MenuItem>
+                            ))}
+                        </Select>
+                    </FormControl>
+
+                    {/* IsActive checkbox configuration */}
                     <Box display="flex" alignItems="center">
                         <Checkbox
                             checked={formData.is_active}
@@ -350,7 +396,7 @@ const Products = () => {
                 </Alert>
             </Snackbar>
         </Box >
-        
+
 
     );
 
