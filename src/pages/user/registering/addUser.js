@@ -69,7 +69,7 @@ function AddUser() {
 
                 // Navigate to the Users listing
                 setTimeout(() => {
-                    navigateTo('/users')
+                    navigateTo('/users/')
                 }, 2000);
 
             } else {
@@ -125,7 +125,7 @@ function AddUser() {
                             variant='contained'
                             size='large'
                             fullWidth
-                            sx={{ backgroundColor: '#3949ab', marginTop: 1 }}
+                            sx={{ fontWeight: 'bold', backgroundColor: '#3949ab', marginTop: 1 }}
                             onClick={submitUser}
                         >
                             sign-up

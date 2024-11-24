@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { Alert, Box, Button, Divider, IconButton, Modal, Paper, Snackbar, Table, TableContainer, TableHead, TableRow, TableCell, TableBody, TextField, FormControl, InputLabel, Select, MenuItem } from "@mui/material";
 import { formatLocale } from '../../../utils/formatLocale';
 import EditIcon from '@mui/icons-material/Edit';
+import AddIcon from '@mui/icons-material/Add';
 
 
 
@@ -140,7 +141,7 @@ function Sales() {
                     body: JSON.stringify(formValues),
                 });
 
-                const data = response.json()
+            const data = response.json()
 
             if (response.ok) {
                 console.log("Sale updated with success!", data);
@@ -186,7 +187,29 @@ function Sales() {
                 component={Paper}
                 sx={{ display: 'flex', flexDirection: 'column' }}
             >
-                <h1 align="center">Sales</h1>
+                <Box
+                    paddingX={5}
+                    paddingY={3.1}
+                    display='flex'
+                    justifyContent='center'
+                    alignItems='center'
+                >
+                    <h1
+                        align="center"
+                        style={{ flex: 1, textAlign: 'center' }}
+                    >
+                        Sales
+                    </h1>
+                    <Button
+                        variant='contained'
+                        size='large'
+                        href="/sales/add/"
+                        endIcon={<AddIcon />}
+                        sx={{ fontWeight: 'bold', backgroundColor: '#3949ab' }}
+                    >
+                        ADD
+                    </Button>
+                </Box>
                 <Divider />
                 <Table arial-label="sale table">
                     <TableHead>

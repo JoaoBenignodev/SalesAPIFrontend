@@ -109,7 +109,7 @@ function AddSale() {
 
                 // Navigate to the Sales listing
                 setTimeout(() => {
-                    navigateTo('/sales')
+                    navigateTo('/sales/')
                 }, 2000);
 
             } else {
@@ -192,7 +192,7 @@ function AddSale() {
                             variant='contained'
                             size='large'
                             fullWidth
-                            sx={{ backgroundColor: '#3949ab', marginTop: 1 }}
+                            sx={{ fontWeight: 'bold', backgroundColor: '#3949ab', marginTop: 1 }}
                             onClick={submitSale}>
                             Register Sale
                         </Button>

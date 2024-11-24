@@ -21,6 +21,7 @@ import {
     TextField
 } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit"
+import AddIcon from "@mui/icons-material/Add"
 import { useCallback, useEffect, useState } from "react";
 import { formatLocale } from "../../../utils/formatLocale";
 
@@ -187,7 +188,29 @@ const Products = () => {
                 component={Paper}
                 sx={{ display: 'flex', flexDirection: 'column' }}
             >
-                <h1 align="center">Products</h1>
+                <Box
+                    paddingX={5}
+                    paddingY={3.1}
+                    display='flex'
+                    justifyContent='center'
+                    alignItems='center'
+                >
+                    <h1
+                        align="center"
+                        style={{ flex: 1, textAlign: 'center' }}
+                    >
+                        Products
+                    </h1>
+                    <Button
+                        variant='contained'
+                        size='large'
+                        href="/products/add/"
+                        endIcon={<AddIcon />}
+                        sx={{ fontWeight: 'bold', backgroundColor: '#3949ab' }}
+                    >
+                        ADD
+                    </Button>
+                </Box>
                 <Divider />
                 <Table arial-label="sale table">
                     <TableHead>

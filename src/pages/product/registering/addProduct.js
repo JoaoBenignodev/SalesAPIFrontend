@@ -96,7 +96,7 @@ function AddProduct() {
 
                 setTimeout(() => {
                     // Navigate to Products
-                    navigate("/products")
+                    navigate("/products/")
                 },2000);
 
             } else {
@@ -186,7 +186,7 @@ function AddProduct() {
                             variant='contained'
                             size='large'
                             fullWidth
-                            sx={{ backgroundColor: '#3949ab', marginTop: 1 }}
+                            sx={{ fontWeight: 'bold', backgroundColor: '#3949ab', marginTop: 1 }}
                             onClick={submitProduct}
                         >
                             add product

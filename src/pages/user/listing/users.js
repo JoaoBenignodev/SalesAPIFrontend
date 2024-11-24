@@ -17,6 +17,7 @@ import {
     Checkbox,
 } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
+import AddIcon from '@mui/icons-material/Add';
 import Divider from "@mui/joy/Divider";
 
 function Users() {
@@ -100,9 +101,9 @@ function Users() {
                 setSnackbarSeverity("success");
                 setOpenSnackbar(true);
 
-                setOpenModal(false); // Closes the modal
+                setOpenModal(false) //Closes the Modal
 
-                // Fetch the User listing considering the updated data
+                // Fetch the Product listing considering the updated data
                 fetchUsers()
 
             } else {
@@ -133,7 +134,29 @@ function Users() {
             width="100%"
         >
             <TableContainer component={Paper}>
-                <h1 align="center">Customers</h1>
+                <Box
+                    paddingX={5}
+                    paddingY={3.1}
+                    display='flex'
+                    justifyContent='center'
+                    alignItems='center'
+                >
+                    <h1
+                        align="center"
+                        style={{ flex: 1, textAlign: 'center' }}
+                    >
+                        Customers
+                    </h1>
+                    <Button
+                        variant='contained'
+                        size='large'
+                        href="/users/add/"
+                        endIcon={<AddIcon />}
+                        sx={{ fontWeight: 'bold', backgroundColor: '#3949ab' }}
+                    >
+                        ADD
+                    </Button>
+                </Box>
                 <Divider />
                 <Table arial-label="user table">
                     <TableHead>
