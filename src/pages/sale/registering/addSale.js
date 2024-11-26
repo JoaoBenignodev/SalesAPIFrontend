@@ -54,6 +54,7 @@ function AddSale() {
     // Initial state of the formData is set with empty strings for each field
     const [formData, setFormData] = useState({
         quantity: '',
+        is_active: true, // Default Value
         user_id: '', // Parent(User) key
         product_id: '', // Parent(Product) key
     });
@@ -103,6 +104,7 @@ function AddSale() {
                 // Reseting the form data
                 setFormData({
                     quantity: '',
+                    is_active: true,
                     user_id: '',
                     product_id: '',
                 })
@@ -187,6 +189,9 @@ function AddSale() {
                                 ))};
                             </Select>
                         </FormControl>
+
+                        {/* Including " is_active" field on the formData */}
+                        <input type='hidden' name='is_active' value={formData.is_active} />
 
                         <Button
                             variant='contained'

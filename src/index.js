@@ -9,6 +9,7 @@ import AddProduct from './pages/product/registering/addProduct';
 import Products from './pages/product/listing/products';
 import AddSale from './pages/sale/registering/addSale';
 import Sales from './pages/sale/listing/sales';
+import ActiveSales from './pages/sale/listing/activeSales';
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -22,6 +23,7 @@ root.render(
                 <Route path="/products/" element={<Products />} />
                 <Route path="/sales/add/" element={<AddSale />} />
                 <Route path="/sales/" element={<Sales />} />
+                <Route path="/sales/active/" element={<ActiveSales />} />
             </Routes>
         </BrowserRouter>
     </React.StrictMode>
