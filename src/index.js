@@ -1,8 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Navigate, Routes, Route } from 'react-router-dom';
 import './index.css';
-import App from './App';
 import AddUser from './pages/user/registering/addUser';
 import Users from './pages/user/listing/users';
 import AddProduct from './pages/product/registering/addProduct';
@@ -16,15 +15,15 @@ root.render(
     <React.StrictMode>
         <BrowserRouter>
             <Routes>
-                <Route path="/" element={<App />} />
-                <Route path="/users/add/" element={<AddUser />} />
-                <Route path="/users/" element={<Users />} />
-                <Route path="/products/add/" element={<AddProduct />} />
-                <Route path="/products/" element={<Products />} />
-                <Route path="/sales/add/" element={<AddSale />} />
-                <Route path="/sales/" element={<Sales />} />
-                <Route path="/sales/active/" element={<ActiveSales />} />
-            </Routes>
+                <Route path="/" element={< Navigate to="/users/add/" />} />
+                    <Route path="/users/add/" element={<AddUser />} />
+                    <Route path="/users/" element={<Users />} />
+                    <Route path="/products/add/" element={<AddProduct />} />
+                    <Route path="/products/" element={<Products />} />
+                    <Route path="/sales/add/" element={<AddSale />} />
+                    <Route path="/sales/" element={<Sales />} />
+                    <Route path="/sales/active/" element={<ActiveSales />} />
+                </Routes>
         </BrowserRouter>
     </React.StrictMode>
 );
